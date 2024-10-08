@@ -36,6 +36,13 @@ import os
     help="Modality of the data",
 )
 @click.option(
+    "--doi",
+    "doi",
+    required=False,
+    type=str,
+    help="DOI of the publication",
+)
+@click.option(
     "--bc-length",
     "bc_length",
     required=False,
@@ -115,6 +122,7 @@ def cli(
     template_file,
     name,
     modality,
+    doi,
     bc_length,
     oligo_length,
     r1_ids,
@@ -161,6 +169,9 @@ def cli(
         "r3_primer": r3_primer,
     }
 
+    if doi is not None:
+        template_vars["doi"] = doi
+
     def getReads(read_ids):
         reads = []
         for read_id in read_ids:
@@ -173,19 +184,19 @@ def cli(
 
     platform_terms = conn.get(reads[0]["sequencing_platform"]["@id"])
     template_vars["platform_terms"] = platform_terms
-    if not bc_length:
+    if bc_length is None:
         bc_length = reads[0]["mean_read_length"]
     template_vars["bc_length"] = bc_length
 
     reads = getReads(r2_ids)
     template_vars["r2_reads"] = reads
-    if not oligo_length and r2_ids:
+    if oligo_length is None and r2_ids is not None:
         oligo_length = reads[0]["mean_read_length"]
     template_vars["oligo_length"] = oligo_length
 
     template_vars["r3_reads"] = getReads(r3_ids)
 
-    if onlist_id:
+    if onlist_id is not None:
         onlist = conn.get(onlist_id)
         template_vars["onlist"] = onlist
 
