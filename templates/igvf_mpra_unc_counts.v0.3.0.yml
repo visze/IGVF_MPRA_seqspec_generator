@@ -1,0 +1,161 @@
+!Assay
+seqspec_version: 0.3.0
+assay_id: {{ r1_reads[0].assay_titles|first }}
+name: {{ name }}
+doi: {{ doi|default("''", true) }}
+date: {{ date.strftime('%d %B %Y') }}
+description: {{ r1_reads[0].file_set.summary }}
+modalities:
+  - {{ modality }}
+lib_struct: ''
+sequence_protocol: {{ r1_reads[0].sequencing_platform.term_name }} ({{ platform_terms.term_id }})
+sequence_kit: {{ r1_reads[0].sequencing_kit }}
+library_protocol: massively parallel reporter assay (OBI:0002675)
+library_kit: Custom
+sequence_spec:
+- !Read
+  read_id: {{ modality|upper }} BC count fw
+  name: Forward {{ modality|upper }} BC read
+  modality: {{ modality }}
+  primer_id: R1_custom_primer
+  min_len: {{ r1_reads[0].minimum_read_length }}
+  max_len: {{ r1_reads[0].maximum_read_length }}
+  strand: pos
+  files:{% for run in r1_reads %}
+  - !File
+    file_id: {{ run.accession }}
+    filename: {{ run.accession }}.fastq.gz
+    md5: {{ run.md5sum }}
+    filetype: {{ run.file_format }}
+    filesize: {{ run.file_size }}
+    url: https://api.data.igvf.org/sequence-files/{{ run.accession }}/@@download/{{ run.accession }}.fastq.gz
+    urltype: https{% endfor %}
+library_spec:
+- !Region
+  parent_id: null
+  region_id: {{ modality }}
+  region_type: {{ modality }}
+  name: {{ modality }}
+  sequence_type: joined
+  sequence: AATGATACGGCGACCACCGAGATCTACACTACAACCGCCAAGAAGCTGCGCGGTGGTGTTGTGTTCGTGGACGAGGTGCCTAAAGGACTGACCGGCAAGTTGGACGCCCGCAAGATCCGCGAGATTCTCATTAAGG{{ r1_primer }}{% for N in range(bc_length) %}{{ "N" }}{% endfor %}ACTAGTACACTCCCCGTCGGCAGTTGGGAAGAGCATAGTCGTAGAGCACGCGGACTCCTATCTCGTATGCCGTCTTCTGGTTG
+  min_len: {{ 29 + 20 + 87 + r1_primer|length + bc_length + 19 + 17 + 15 + 8 + 24 }}
+  max_len: {{ 29 + 20 + 87 + r1_primer|length + bc_length + 19 + 17 + 15 + 8 + 24 }}
+  onlist: null
+  regions:
+  - !Region
+    parent_id: {{ modality }}
+    region_id: P5
+    region_type: illumina_p5
+    name: P5
+    sequence_type: fixed
+    sequence: AATGATACGGCGACCACCGAGATCTACAC
+    min_len: 29
+    max_len: 29
+    onlist: null
+    regions: null
+  - !Region
+    parent_id: {{ modality }}
+    region_id: PCR1_2_primer
+    region_type: custom_primer
+    name: PCR1_2_primer
+    sequence_type: fixed
+    sequence: TACAACCGCCAAGAAGCTGC
+    min_len: 20
+    max_len: 20
+    onlist: null
+    regions: null
+  - !Region
+    parent_id: {{ modality }}
+    region_id: Luciferase
+    region_type: protein
+    name: Luciferase
+    sequence_type: fixed
+    sequence: GCGGTGGTGTTGTGTTCGTGGACGAGGTGCCTAAAGGACTGACCGGCAAGTTGGACGCCCGCAAGATCCGCGAGATTCTCATTAAGG
+    min_len: 87
+    max_len: 87
+    onlist: null
+    regions: null
+  - !Region
+    parent_id: {{ modality }}
+    region_id: R1_custom_primer
+    region_type: custom_primer
+    name: R1_custom_primer
+    sequence_type: fixed
+    sequence: {{ r1_primer }}
+    min_len: {{ r1_primer|length }} 
+    max_len: {{ r1_primer|length }}
+    onlist: null
+    regions: null
+  - !Region
+    parent_id: {{ modality }}
+    region_id: Barcode
+    region_type: barcode
+    name: Barcode
+    sequence_type: onlist
+    sequence: {% for N in range(bc_length) %}{{ "N" }}{% endfor %}
+    min_len: {{ bc_length }}
+    max_len: {{ bc_length }}
+    onlist: {% if onlist is defined %}!Onlist
+      file_id: {{ onlist.accession }}
+      filename: {{ onlist.accession }}.tsv.gz
+      md5: {{ onlist.md5sum }}
+      filetype: {{ onlist.file_format }}
+      filesize: {{ onlist.file_size }}
+      url: https://api.data.igvf.org/tabular-files/{{ onlist.accession }}/@@download/{{ onlist.accession }}.tsv.gz
+      urltype: https{% else %}null{% endif %}
+    regions: null
+  - !Region
+    parent_id: {{ modality }}
+    region_id: RT_primer
+    region_type: custom_primer
+    name: RT_primer
+    sequence_type: fixed
+    sequence: ACTAGTACACTCCCCGTCG
+    min_len: 19
+    max_len: 19
+    onlist: null
+    regions: null
+  - !Region
+    parent_id: {{ modality }}
+    region_id: PCR1_primer
+    region_type: custom_primer
+    name: PCR1_primer
+    sequence_type: fixed
+    sequence: GCAGTTGGGAAGAGCAT
+    min_len: 17
+    max_len: 17
+    onlist: null
+    regions: null
+  - !Region
+    parent_id: {{ modality }}
+    region_id: PCR2_primer
+    region_type: custom_primer
+    name: PCR2_primer
+    sequence_type: fixed
+    sequence: AGTCGTAGAGCACGC
+    min_len: 15
+    max_len: 15
+    onlist: null
+    regions: null
+  - !Region
+    parent_id: {{ modality }}
+    region_id: i7_index
+    region_type: index7
+    name: i7_index
+    sequence_type: fixed
+    sequence: GGACTCCT
+    min_len: 8
+    max_len: 8
+    onlist: null
+    regions: null
+  - !Region
+    parent_id: {{ modality }}
+    region_id: P7
+    region_type: illumina_p7
+    name: P7
+    sequence_type: fixed
+    sequence: ATCTCGTATGCCGTCTTCTGGTTG
+    min_len: 24
+    max_len: 24
+    onlist: null
+    regions: null

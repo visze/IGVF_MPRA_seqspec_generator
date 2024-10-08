@@ -1,0 +1,141 @@
+---
+!Assay
+seqspec_version: 0.3.0
+assay_id: {{ r1_reads[0].assay_titles|first }}
+name: {{ name }}
+doi: {{ doi|default("''", true) }}
+date: {{ date.strftime('%d %B %Y') }}
+description: {{ r1_reads[0].file_set.summary }}
+modalities:
+  - {{ modality }}
+lib_struct: ""
+library_protocol: massively parallel reporter assay (OBI:0002675)
+library_kit: Custom
+sequence_protocol: {{ r1_reads[0].sequencing_platform.term_name }} ({{ platform_terms.term_id }})
+sequence_kit: {{ r1_reads[0].sequencing_kit }}
+sequence_spec:
+- !Read
+  read_id: {{ modality|upper }} BC count fw
+  name: Forward {{ modality|upper }} BC read
+  modality: {{ modality }}
+  primer_id: R1_custom_primer
+  min_len: {{ r1_reads[0].minimum_read_length }}
+  max_len: {{ r1_reads[0].maximum_read_length }}
+  strand: pos
+  files:{% for run in r1_reads %}
+  - !File
+    file_id: {{ run.accession }}
+    filename: {{ run.accession }}.fastq.gz
+    md5: {{ run.md5sum }}
+    filetype: {{ run.file_format }}
+    filesize: {{ run.file_size }}
+    url: https://api.data.igvf.org/sequence-files/{{ run.accession }}/@@download/{{ run.accession }}.fastq.gz
+    urltype: https{% endfor %}
+- !Read
+  read_id: {{ modality|upper }} BC count rv
+  name: Reverse {{ modality|upper }} BC read
+  modality: {{ modality }}
+  primer_id: R2_custom_primer
+  min_len: {{ r2_reads[0].minimum_read_length }}
+  max_len: {{ r2_reads[0].maximum_read_length }}
+  strand: neg
+  files:{% for run in r2_reads %}
+  - !File
+    file_id: {{ run.accession }}
+    filename: {{ run.accession }}.fastq.gz
+    md5: {{ run.md5sum }}
+    filetype: {{ run.file_format }}
+    filesize: {{ run.file_size }}
+    url: https://api.data.igvf.org/sequence-files/{{ run.accession }}/@@download/{{ run.accession }}.fastq.gz
+    urltype: https{% endfor %}
+- !Read
+  read_id: {{ modality|upper }} BC count id
+  name: {{ modality|upper }} BC UMI read
+  modality: {{ modality }}
+  primer_id: R3_custom_primer
+  min_len: {{ r3_reads[0].minimum_read_length }}
+  max_len: {{ r3_reads[0].maximum_read_length }}
+  strand: pos
+  files:{% for run in r3_reads %}
+  - !File
+    file_id: {{ run.accession }}
+    filename: {{ run.accession }}.fastq.gz
+    md5: {{ run.md5sum }}
+    filetype: {{ run.file_format }}
+    filesize: {{ run.file_size }}
+    url: https://api.data.igvf.org/sequence-files/{{ run.accession }}/@@download/{{ run.accession }}.fastq.gz
+    urltype: https{% endfor %}
+library_spec:
+  - !Region
+    parent_id: null
+    region_id: {{ modality }}
+    region_type: {{ modality }}
+    name: primer, barcode and umi
+    sequence_type: joined
+    sequence: {{ r1_primer }}{% for N in range(bc_length) %}{{ "N" }}{% endfor %}{{ r2_primer + r3_primer }}{% for X in range(r3_reads[0].minimum_read_length) %}{{ "X" }}{% endfor %}
+    min_len: {{ r1_primer|length + r2_primer|length + r3_primer|length + bc_length + r3_reads[0].minimum_read_length }}
+    max_len: {{ r1_primer|length + r2_primer|length + r3_primer|length + bc_length + r3_reads[0].maximum_read_length }}
+    onlist: null
+    regions:
+      - !Region
+        parent_id: {{ modality }}
+        region_id: R1_custom_primer
+        region_type: custom_primer
+        name: R1_custom_primer
+        sequence_type: fixed
+        sequence: {{ r1_primer }}
+        min_len: {{ r1_primer|length }}
+        max_len: {{ r1_primer|length }}
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: {{ modality }}
+        region_id: {{ modality }}-barcode
+        region_type: barcode
+        name: {{ modality|upper }} barcode
+        sequence_type: onlist
+        sequence: {% for N in range(bc_length) %}{{ "N" }}{% endfor %}
+        min_len: {{ bc_length }}
+        max_len: {{ bc_length }}
+        onlist: {% if onlist is defined %}!Onlist
+          file_id: {{ onlist.accession }}
+          filename: {{ onlist.accession }}.tsv.gz
+          md5: {{ onlist.md5sum }}
+          filetype: {{ onlist.file_format }}
+          filesize: {{ onlist.file_size }}
+          url: https://api.data.igvf.org/tabular-files/{{ onlist.accession }}/@@download/{{ onlist.accession }}.tsv.gz
+          urltype: https{% else %}null{% endif %}
+        regions: null
+      - !Region
+        parent_id: {{ modality }}
+        region_id: R2_custom_primer
+        region_type: custom_primer
+        name: R2_custom_primer
+        sequence_type: fixed
+        sequence: {{ r2_primer }}
+        min_len: {{ r2_primer|length }}
+        max_len: {{ r2_primer|length }}
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: {{ modality }}
+        region_id: R3_custom_primer
+        region_type: custom_primer
+        name: R3_custom_primer
+        sequence_type: fixed
+        sequence: {{ r3_primer }}
+        min_len: {{ r3_primer|length }}
+        max_len: {{ r3_primer|length }}
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: {{ modality }}
+        region_id: umi
+        region_type: umi
+        name: UMI
+        sequence_type: random
+        sequence: {% for X in range(r3_reads[0].minimum_read_length) %}{{ "X" }}{% endfor %}
+        min_len: {{ r3_reads[0].minimum_read_length }}
+        max_len: {{ r3_reads[0].maximum_read_length }}
+        onlist: null
+        regions: null
