@@ -39,7 +39,7 @@ RNA count seqspec of lenti virus MPRA from shendure (UW) grant:
 
 ```bash
 python generate_seqspec.py --template templates/igvf_mpra_lenti_counts.v0.3.0.yml \
---name mpra_shendure_asd --modality rna \
+--name mpra_shendure_asd --modality rna --doi 10.3390/ijms24043509 \
 --r1-id IGVFFI2104GOOJ --r2-id IGVFFI5314QYSA --r3-id IGVFFI1100CEBW \
 --output test.yaml
 ```
