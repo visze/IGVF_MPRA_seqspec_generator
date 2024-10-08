@@ -36,6 +36,13 @@ import os
     help="Modality of the data",
 )
 @click.option(
+    "--doi",
+    "doi",
+    required=False,
+    type=str,
+    help="DOI of the publication",
+)
+@click.option(
     "--bc-length",
     "bc_length",
     required=False,
@@ -115,6 +122,7 @@ def cli(
     template_file,
     name,
     modality,
+    doi,
     bc_length,
     oligo_length,
     r1_ids,
@@ -160,6 +168,9 @@ def cli(
         "r2_primer": r2_primer,
         "r3_primer": r3_primer,
     }
+
+    if doi:
+        template_vars["doi"] = doi
 
     def getReads(read_ids):
         reads = []
