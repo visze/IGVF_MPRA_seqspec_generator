@@ -101,9 +101,9 @@ library_spec:
         regions: null
       - !Region
         parent_id: dna
-        region_id: unknown_sequence_1
+        region_id: linker_1
         region_type: linker
-        name: unknown_sequence_1
+        name: linker_1
         sequence_type: fixed
         sequence: CAGCCTGCATTTCTGCCAG
         min_len: 19
@@ -152,9 +152,9 @@ library_spec:
         regions: null
       - !Region
         parent_id: dna
-        region_id: unknown_sequence_2
+        region_id: linker_2
         region_type: linker
-        name: unknown_sequence_2
+        name: linker_2
         sequence_type: fixed
         sequence: GAAGCTCGACTTCCAGCTTGGCAATCCGGTACTGT
         min_len: 35
@@ -185,9 +185,9 @@ library_spec:
         regions: null
       - !Region
         parent_id: dna
-        region_id: unknown_sequence_3
+        region_id: linker_3
         region_type: linker
-        name: unknown_sequence_3
+        name: linker_3
         sequence_type: fixed
         sequence: ACCGGTCGCCACCATGGTGAGCAAGGGCGAGGAGC
         min_len: 35
