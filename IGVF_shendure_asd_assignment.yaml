@@ -1,0 +1,207 @@
+---
+!Assay
+seqspec_version: 0.3.0
+assay_id: lentiMPRA
+name: mpra_shendure_asd
+doi: ''
+date: 30 October 2024
+description: Reporter library targeting histone modifications, transcription start sites genome-wide associated with autism spectrum disorder
+modalities:
+  - dna
+lib_struct: ""
+library_protocol: massively parallel reporter assay (OBI:0002675)
+library_kit: Custom
+sequence_protocol: Illumina NextSeq 500 (EFO:0009173)
+sequence_kit: NextSeq 500 Mid Output v2 Kit
+sequence_spec:
+- !Read
+  read_id: Oligo fwd
+  name: Forward oligo read
+  modality: dna
+  primer_id: R1_custom_primer
+  min_len: 147
+  max_len: 147
+  strand: pos
+  files:
+  - !File
+    file_id: IGVFFI7550XNYO
+    filename: IGVFFI7550XNYO.fastq.gz
+    md5: fc04079e0e3803b9f5322ca3455bd162
+    filetype: fastq
+    filesize: 4557357109
+    url: https://api.data.igvf.org/sequence-files/IGVFFI7550XNYO/@@download/IGVFFI7550XNYO.fastq.gz
+    urltype: https
+- !Read
+  read_id: Oligo rev
+  name: Reverse oligo read
+  modality: dna
+  primer_id: R3_custom_primer
+  min_len: 146
+  max_len: 146
+  strand: neg
+  files:
+  - !File
+    file_id: IGVFFI4516TPML
+    filename: IGVFFI4516TPML.fastq.gz
+    md5: 46b8012dbbb29c469a48bfbca5cdb560
+    filetype: fastq
+    filesize: 4494902392
+    url: https://api.data.igvf.org/sequence-files/IGVFFI4516TPML/@@download/IGVFFI4516TPML.fastq.gz
+    urltype: https
+- !Read
+  read_id: BC
+  name: Barcode read
+  modality: dna
+  primer_id: R2_custom_primer
+  min_len: 15
+  max_len: 15
+  strand: pos
+  files:
+  - !File
+    file_id: IGVFFI3111OZMK
+    filename: IGVFFI3111OZMK.fastq.gz
+    md5: d274c855027beb3836feeda884fb806e
+    filetype: fastq
+    filesize: 812626260
+    url: https://api.data.igvf.org/sequence-files/IGVFFI3111OZMK/@@download/IGVFFI3111OZMK.fastq.gz
+    urltype: https
+library_spec:
+  - !Region
+    parent_id: null
+    region_id: dna
+    region_type: dna
+    name: primer, barcode and umi
+    sequence_type: joined
+    sequence: AATGATACGGCGACCACCGAGATCTACACXXXXXXXXXXCAGCCTGCATTTCTGCCAGGGCCCGCTCTAGACCTGCAGGAGGACCGGATCAACTNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGCAAAGTGAACACATCGCTAAGCGAAAGCTAAGGAAGCTCGACTTCCAGCTTGGCAATCCGGTACTGTCATTGCGTGAACCGACACTAGAGGGTATATAATGXXXXXXXXXXXXXXXACCGGTCGCCACCATGGTGAGCAAGGGCGAGGAGCATCTCGTATGCCGTCTTCTGCTTG
+    min_len: 425
+    max_len: 470
+    onlist: null
+    regions:
+      - !Region
+        parent_id: dna
+        region_id: P5
+        region_type: illumina_p5
+        name: P5
+        sequence_type: fixed
+        sequence: AATGATACGGCGACCACCGAGATCTACAC
+        min_len: 29
+        max_len: 29
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: i5_index
+        region_type: index5
+        name: i5_index
+        sequence_type: random
+        sequence: XXXXXXXXXX
+        min_len: 10
+        max_len: 10
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: linker_1
+        region_type: linker
+        name: linker_1
+        sequence_type: fixed
+        sequence: CAGCCTGCATTTCTGCCAG
+        min_len: 19
+        max_len: 19
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: R1_custom_primer
+        region_type: custom_primer
+        name: R1_custom_primer
+        sequence_type: fixed
+        sequence: GGCCCGCTCTAGACCTGCAGGAGGACCGGATCAACT
+        min_len: 36
+        max_len: 36
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: oligo
+        region_type: dna
+        name: oligo
+        sequence_type: onlist
+        sequence: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+        min_len: 155
+        max_len: 200
+        onlist: !Onlist
+          file_id: IGVFFI3512DUKP
+          filename: IGVFFI3512DUKP.tsv.gz
+          md5: e2860be0526f37141700a3bba31e70bf
+          filetype: tsv
+          filesize: 377493
+          url: https://api.data.igvf.org/tabular-files/IGVFFI3512DUKP/@@download/IGVFFI3512DUKP.tsv.gz
+          urltype: https
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: R3_custom_primer
+        region_type: custom_primer
+        name: R3_custom_primer
+        sequence_type: fixed
+        sequence: CATTGCGTGAACCGACACTAGAGGGTATATAATG
+        min_len: 34
+        max_len: 34
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: linker_2
+        region_type: linker
+        name: linker_2
+        sequence_type: fixed
+        sequence: GAAGCTCGACTTCCAGCTTGGCAATCCGGTACTGT
+        min_len: 35
+        max_len: 35
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: R2_custom_primer
+        region_type: custom_primer
+        name: R2_custom_primer
+        sequence_type: fixed
+        sequence: GCAAAGTGAACACATCGCTAAGCGAAAGCTAAG
+        min_len: 33
+        max_len: 33
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: barcode
+        region_type: barcode
+        name: barcode
+        sequence_type: random
+        sequence: XXXXXXXXXXXXXXX
+        min_len: 15
+        max_len: 15
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: linker_3
+        region_type: linker
+        name: linker_3
+        sequence_type: fixed
+        sequence: ACCGGTCGCCACCATGGTGAGCAAGGGCGAGGAGC
+        min_len: 35
+        max_len: 35
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: P7
+        region_type: illumina_p7
+        name: P7
+        sequence_type: fixed
+        sequence: ATCTCGTATGCCGTCTTCTGCTTG
+        min_len: 24
+        max_len: 24
+        onlist: null
+        regions: null

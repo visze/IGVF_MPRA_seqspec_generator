@@ -46,7 +46,7 @@ python generate_seqspec.py --template templates/igvf_mpra_lenti_assignment.v0.3.
 --r3-id IGVFFI4403ENTR --r3-id IGVFFI2142OYFW --r3-id IGVFFI6807PKQA \
 --r1-primer GGCCCGCTCTAGACCTGCAGGAGGACCGGATCAACT --r2-primer GCAAAGTGAACACATCGCTAAGCGAAAGCTAAG --r3-primer CATTGCGTGAACCGACACTAGAGGGTATATAATG \
 --onlist-id IGVFFI2041KXFD \
---bc-length 15 --oligo-length 200 \
+--bc-length 15 --oligo-length 200 200 \
 --output IGVF_shendure_proximalPromoter_assignment.yaml
 ```
 

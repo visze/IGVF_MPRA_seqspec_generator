@@ -54,8 +54,8 @@ import os
     "--oligo-length",
     "oligo_length",
     required=False,
-    type=int,
-    help="Oligo length, if not set mean read length of R2 read is used",
+    type=(int,int),
+    help="Min and max oligo length, if not set mean read length of R2 read is used",
 )
 @click.option(
     "--r1-id",
@@ -187,11 +187,13 @@ def cli(
     template_vars["platform_terms"] = platform_terms
     template_vars["bc_length"] = bc_length
 
+    if oligo_length is None and r1_ids:
+        oligo_length = (reads[0]["mean_read_length"], reads[0]["mean_read_length"])
+    template_vars["oligo_length_min"] = oligo_length[0]
+    template_vars["oligo_length_max"] = oligo_length[1]
+
     reads = getReads(r2_ids)
     template_vars["r2_reads"] = reads
-    if oligo_length is None and r2_ids:
-        oligo_length = reads[0]["mean_read_length"]
-    template_vars["oligo_length"] = oligo_length
 
     template_vars["r3_reads"] = getReads(r3_ids)
 

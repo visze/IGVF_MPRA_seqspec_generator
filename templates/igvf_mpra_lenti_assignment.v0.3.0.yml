@@ -19,8 +19,8 @@ sequence_spec:
   name: Forward oligo read
   modality: dna
   primer_id: R1_custom_primer
-  min_len: {{ r1_reads[0].minimum_read_length }}
-  max_len: {{ r1_reads[0].maximum_read_length }}
+  min_len: {{ r1_reads[0].minimum_read_length | int }}
+  max_len: {{ r1_reads[0].maximum_read_length | int }}
   strand: pos
   files:{% for run in r1_reads %}
   - !File
@@ -36,8 +36,8 @@ sequence_spec:
   name: Reverse oligo read
   modality: dna
   primer_id: R3_custom_primer
-  min_len: {{ r3_reads[0].minimum_read_length }}
-  max_len: {{ r3_reads[0].maximum_read_length }}
+  min_len: {{ r3_reads[0].minimum_read_length | int }}
+  max_len: {{ r3_reads[0].maximum_read_length | int }}
   strand: neg
   files:{% for run in r3_reads %}
   - !File
@@ -53,8 +53,8 @@ sequence_spec:
   name: Barcode read
   modality: dna
   primer_id: R2_custom_primer
-  min_len: {{ r2_reads[0].minimum_read_length }}
-  max_len: {{ r2_reads[0].maximum_read_length }}
+  min_len: {{ r2_reads[0].minimum_read_length | int }}
+  max_len: {{ r2_reads[0].maximum_read_length | int }}
   strand: pos
   files:{% for run in r2_reads %}
   - !File
@@ -72,9 +72,9 @@ library_spec:
     region_type: dna
     name: primer, barcode and umi
     sequence_type: joined
-    sequence: AATGATACGGCGACCACCGAGATCTACACXXXXXXXXXXCAGCCTGCATTTCTGCCAG{{ r1_primer }}{% for N in range(oligo_length) %}{{ "N" }}{% endfor %}{{ r2_primer }}GAAGCTCGACTTCCAGCTTGGCAATCCGGTACTGT{{ r3_primer }}{% for X in range(bc_length) %}{{ "X" }}{% endfor %}ACCGGTCGCCACCATGGTGAGCAAGGGCGAGGAGCATCTCGTATGCCGTCTTCTGCTTG
-    min_len: {{ 29 + 10 + 19 + r1_primer|length + oligo_length + r2_primer|length + 35 + r3_primer|length + bc_length + 35 + 24 }}
-    max_len: {{ 29 + 10 + 19 + r1_primer|length + oligo_length + r2_primer|length + 35 + r3_primer|length + bc_length + 35 + 24 }}
+    sequence: AATGATACGGCGACCACCGAGATCTACACXXXXXXXXXXCAGCCTGCATTTCTGCCAG{{ r1_primer }}{% for N in range(oligo_length_min) %}{{ "N" }}{% endfor %}{{ r2_primer }}GAAGCTCGACTTCCAGCTTGGCAATCCGGTACTGT{{ r3_primer }}{% for X in range(bc_length) %}{{ "X" }}{% endfor %}ACCGGTCGCCACCATGGTGAGCAAGGGCGAGGAGCATCTCGTATGCCGTCTTCTGCTTG
+    min_len: {{ 29 + 10 + 19 + r1_primer|length + oligo_length_min + r2_primer|length + 35 + r3_primer|length + bc_length + 35 + 24 }}
+    max_len: {{ 29 + 10 + 19 + r1_primer|length + oligo_length_max + r2_primer|length + 35 + r3_primer|length + bc_length + 35 + 24 }}
     onlist: null
     regions:
       - !Region
@@ -127,9 +127,9 @@ library_spec:
         region_type: dna
         name: oligo
         sequence_type: onlist
-        sequence: {% for N in range(oligo_length) %}{{ "N" }}{% endfor %}
-        min_len: {{ oligo_length }}
-        max_len: {{ oligo_length }}
+        sequence: {% for N in range(oligo_length_min) %}{{ "N" }}{% endfor %}
+        min_len: {{ oligo_length_min }}
+        max_len: {{ oligo_length_max }}
         onlist: {% if onlist is defined %}!Onlist
           file_id: {{ onlist.accession }}
           filename: {{ onlist.accession }}.tsv.gz
