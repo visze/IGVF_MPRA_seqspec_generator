@@ -37,6 +37,19 @@ python generate_seqspec.py --help
 
 #### Assignment data
 
+
+```bash
+python generate_seqspec.py --template templates/igvf_mpra_lenti_assignment.v0.3.0.yml \
+--name mpra_shendure_proximal_promoter --modality dna \
+--r1-id IGVFFI7003XVUG --r1-id IGVFFI5231ATBS --r1-id IGVFFI0921LXBF \
+--r2-id IGVFFI8640LLIG --r2-id IGVFFI0576IRDC --r2-id IGVFFI6354NJGB \
+--r3-id IGVFFI4403ENTR --r3-id IGVFFI2142OYFW --r3-id IGVFFI6807PKQA \
+--r1-primer GGCCCGCTCTAGACCTGCAGGAGGACCGGATCAACT --r2-primer GCAAAGTGAACACATCGCTAAGCGAAAGCTAAG --r3-primer CATTGCGTGAACCGACACTAGAGGGTATATAATG \
+--onlist-id IGVFFI2041KXFD \
+--bc-length 15 --oligo-length 200 \
+--output IGVF_shendure_proximalPromoter_assignment.yaml
+```
+
 DNA assignment seqspec of lenti virus MPRA from Shendure (UW) grant:
 
 ```bash

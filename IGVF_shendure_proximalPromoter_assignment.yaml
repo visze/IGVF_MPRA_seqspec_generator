@@ -1,0 +1,255 @@
+---
+!Assay
+seqspec_version: 0.3.0
+assay_id: lentiMPRA
+name: mpra_shendure_proximal_promoter
+doi: ''
+date: 16 October 2024
+description: Reporter library targeting candidate cis-regulatory elements genome-wide
+modalities:
+  - dna
+lib_struct: ""
+library_protocol: massively parallel reporter assay (OBI:0002675)
+library_kit: Custom
+sequence_protocol: Illumina NextSeq 500 (EFO:0009173)
+sequence_kit: NextSeq 500 Mid Output v2 Kit
+sequence_spec:
+- !Read
+  read_id: Oligo fwd
+  name: Forward oligo read
+  modality: dna
+  primer_id: R1_custom_primer
+  min_len: 146
+  max_len: 146
+  strand: pos
+  files:
+  - !File
+    file_id: IGVFFI7003XVUG
+    filename: IGVFFI7003XVUG.fastq.gz
+    md5: f30f12ecabf07277bb0199c907187187
+    filetype: fastq
+    filesize: 6946181066
+    url: https://api.data.igvf.org/sequence-files/IGVFFI7003XVUG/@@download/IGVFFI7003XVUG.fastq.gz
+    urltype: https
+  - !File
+    file_id: IGVFFI5231ATBS
+    filename: IGVFFI5231ATBS.fastq.gz
+    md5: b1913d3806ebf2fb4ae230003e40e6ea
+    filetype: fastq
+    filesize: 9720715570
+    url: https://api.data.igvf.org/sequence-files/IGVFFI5231ATBS/@@download/IGVFFI5231ATBS.fastq.gz
+    urltype: https
+  - !File
+    file_id: IGVFFI0921LXBF
+    filename: IGVFFI0921LXBF.fastq.gz
+    md5: e1bc1ddbbbc49d80251b3fc617822a32
+    filetype: fastq
+    filesize: 10165101536
+    url: https://api.data.igvf.org/sequence-files/IGVFFI0921LXBF/@@download/IGVFFI0921LXBF.fastq.gz
+    urltype: https
+- !Read
+  read_id: Oligo rev
+  name: Reverse oligo read
+  modality: dna
+  primer_id: R3_custom_primer
+  min_len: 146
+  max_len: 146
+  strand: neg
+  files:
+  - !File
+    file_id: IGVFFI4403ENTR
+    filename: IGVFFI4403ENTR.fastq.gz
+    md5: 01e019b8b23558584b4c98a791c2a445
+    filetype: fastq
+    filesize: 7459407909
+    url: https://api.data.igvf.org/sequence-files/IGVFFI4403ENTR/@@download/IGVFFI4403ENTR.fastq.gz
+    urltype: https
+  - !File
+    file_id: IGVFFI2142OYFW
+    filename: IGVFFI2142OYFW.fastq.gz
+    md5: dbb4f3cbdb1045085b9162c2dfbb1102
+    filetype: fastq
+    filesize: 10198975067
+    url: https://api.data.igvf.org/sequence-files/IGVFFI2142OYFW/@@download/IGVFFI2142OYFW.fastq.gz
+    urltype: https
+  - !File
+    file_id: IGVFFI6807PKQA
+    filename: IGVFFI6807PKQA.fastq.gz
+    md5: 1089ed561c85b9cf89f4c4cff27bf8b2
+    filetype: fastq
+    filesize: 10295293708
+    url: https://api.data.igvf.org/sequence-files/IGVFFI6807PKQA/@@download/IGVFFI6807PKQA.fastq.gz
+    urltype: https
+- !Read
+  read_id: BC
+  name: Barcode read
+  modality: dna
+  primer_id: R2_custom_primer
+  min_len: 15
+  max_len: 15
+  strand: pos
+  files:
+  - !File
+    file_id: IGVFFI8640LLIG
+    filename: IGVFFI8640LLIG.fastq.gz
+    md5: 3dc5961e711f619630f204857fbc22bd
+    filetype: fastq
+    filesize: 1252997951
+    url: https://api.data.igvf.org/sequence-files/IGVFFI8640LLIG/@@download/IGVFFI8640LLIG.fastq.gz
+    urltype: https
+  - !File
+    file_id: IGVFFI0576IRDC
+    filename: IGVFFI0576IRDC.fastq.gz
+    md5: 5a0772e39f4e22cf1db3d4c77e164d7f
+    filetype: fastq
+    filesize: 1719113872
+    url: https://api.data.igvf.org/sequence-files/IGVFFI0576IRDC/@@download/IGVFFI0576IRDC.fastq.gz
+    urltype: https
+  - !File
+    file_id: IGVFFI6354NJGB
+    filename: IGVFFI6354NJGB.fastq.gz
+    md5: fd2ea69299e807d346a36c773726e8b9
+    filetype: fastq
+    filesize: 1809729998
+    url: https://api.data.igvf.org/sequence-files/IGVFFI6354NJGB/@@download/IGVFFI6354NJGB.fastq.gz
+    urltype: https
+library_spec:
+  - !Region
+    parent_id: null
+    region_id: dna
+    region_type: dna
+    name: primer, barcode and umi
+    sequence_type: joined
+    sequence: AATGATACGGCGACCACCGAGATCTACACXXXXXXXXXXCAGCCTGCATTTCTGCCAGGGCCCGCTCTAGACCTGCAGGAGGACCGGATCAACTNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGCAAAGTGAACACATCGCTAAGCGAAAGCTAAGGAAGCTCGACTTCCAGCTTGGCAATCCGGTACTGTCATTGCGTGAACCGACACTAGAGGGTATATAATGXXXXXXXXXXXXXXXACCGGTCGCCACCATGGTGAGCAAGGGCGAGGAGCATCTCGTATGCCGTCTTCTGCTTG
+    min_len: 470
+    max_len: 470
+    onlist: null
+    regions:
+      - !Region
+        parent_id: dna
+        region_id: P5
+        region_type: illumina_p5
+        name: P5
+        sequence_type: fixed
+        sequence: AATGATACGGCGACCACCGAGATCTACAC
+        min_len: 29
+        max_len: 29
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: i5_index
+        region_type: index5
+        name: i5_index
+        sequence_type: random
+        sequence: XXXXXXXXXX
+        min_len: 10
+        max_len: 10
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: linker_1
+        region_type: linker
+        name: linker_1
+        sequence_type: fixed
+        sequence: CAGCCTGCATTTCTGCCAG
+        min_len: 19
+        max_len: 19
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: R1_custom_primer
+        region_type: custom_primer
+        name: R1_custom_primer
+        sequence_type: fixed
+        sequence: GGCCCGCTCTAGACCTGCAGGAGGACCGGATCAACT
+        min_len: 36
+        max_len: 36
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: oligo
+        region_type: dna
+        name: oligo
+        sequence_type: onlist
+        sequence: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+        min_len: 200
+        max_len: 200
+        onlist: !Onlist
+          file_id: IGVFFI2041KXFD
+          filename: IGVFFI2041KXFD.tsv.gz
+          md5: ca4f3d660dfcee1afd99c766d888ac80
+          filetype: tsv
+          filesize: 14033497
+          url: https://api.data.igvf.org/tabular-files/IGVFFI2041KXFD/@@download/IGVFFI2041KXFD.tsv.gz
+          urltype: https
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: R3_custom_primer
+        region_type: custom_primer
+        name: R3_custom_primer
+        sequence_type: fixed
+        sequence: CATTGCGTGAACCGACACTAGAGGGTATATAATG
+        min_len: 34
+        max_len: 34
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: linker_2
+        region_type: linker
+        name: linker_2
+        sequence_type: fixed
+        sequence: GAAGCTCGACTTCCAGCTTGGCAATCCGGTACTGT
+        min_len: 35
+        max_len: 35
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: R2_custom_primer
+        region_type: custom_primer
+        name: R2_custom_primer
+        sequence_type: fixed
+        sequence: GCAAAGTGAACACATCGCTAAGCGAAAGCTAAG
+        min_len: 33
+        max_len: 33
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: barcode
+        region_type: barcode
+        name: barcode
+        sequence_type: random
+        sequence: XXXXXXXXXXXXXXX
+        min_len: 15
+        max_len: 15
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: linker_3
+        region_type: linker
+        name: linker_3
+        sequence_type: fixed
+        sequence: ACCGGTCGCCACCATGGTGAGCAAGGGCGAGGAGC
+        min_len: 35
+        max_len: 35
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: P7
+        region_type: illumina_p7
+        name: P7
+        sequence_type: fixed
+        sequence: ATCTCGTATGCCGTCTTCTGCTTG
+        min_len: 24
+        max_len: 24
+        onlist: null
+        regions: null
