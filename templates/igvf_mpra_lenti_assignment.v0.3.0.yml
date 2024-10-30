@@ -1,13 +1,13 @@
 ---
 !Assay
 seqspec_version: 0.3.0
-assay_id: {{ r1_reads[0].assay_titles|first }}
+assay_id: lentiMPRA
 name: {{ name }}
 doi: {{ doi|default("''", true) }}
 date: {{ date.strftime('%d %B %Y') }}
 description: {{ r1_reads[0].file_set.summary }}
 modalities:
-  - {{ modality }}
+  - dna
 lib_struct: ""
 library_protocol: massively parallel reporter assay (OBI:0002675)
 library_kit: Custom
@@ -15,9 +15,9 @@ sequence_protocol: {{ r1_reads[0].sequencing_platform.term_name }} ({{ platform_
 sequence_kit: {{ r1_reads[0].sequencing_kit }}
 sequence_spec:
 - !Read
-  read_id: {{ modality|upper }} BC count fwd
-  name: Forward {{ modality|upper }} BC read
-  modality: {{ modality }}
+  read_id: Oligo fwd
+  name: Forward oligo read
+  modality: dna
   primer_id: R1_custom_primer
   min_len: {{ r1_reads[0].minimum_read_length }}
   max_len: {{ r1_reads[0].maximum_read_length }}
@@ -32,10 +32,10 @@ sequence_spec:
     url: https://api.data.igvf.org/sequence-files/{{ run.accession }}/@@download/{{ run.accession }}.fastq.gz
     urltype: https{% endfor %}
 - !Read
-  read_id: {{ modality|upper }} BC count rev
-  name: Reverse {{ modality|upper }} BC read
-  modality: {{ modality }}
-  primer_id: R2_custom_primer
+  read_id: Oligo rev
+  name: Reverse oligo read
+  modality: dna
+  primer_id: R3_custom_primer
   min_len: {{ r3_reads[0].minimum_read_length }}
   max_len: {{ r3_reads[0].maximum_read_length }}
   strand: neg
@@ -49,9 +49,9 @@ sequence_spec:
     url: https://api.data.igvf.org/sequence-files/{{ run.accession }}/@@download/{{ run.accession }}.fastq.gz
     urltype: https{% endfor %}
 - !Read
-  read_id: {{ modality|upper }} BC count id
-  name: {{ modality|upper }} BC UMI read
-  modality: {{ modality }}
+  read_id: BC
+  name: Barcode read
+  modality: dna
   primer_id: R2_custom_primer
   min_len: {{ r2_reads[0].minimum_read_length }}
   max_len: {{ r2_reads[0].maximum_read_length }}
@@ -68,17 +68,17 @@ sequence_spec:
 library_spec:
   - !Region
     parent_id: null
-    region_id: {{ modality }}
-    region_type: {{ modality }}
+    region_id: dna
+    region_type: dna
     name: primer, barcode and umi
     sequence_type: joined
-    sequence: AATGATACGGCGACCACCGAGATCTACACXXXXXXXXXX{{ r1_primer }}{% for N in range(bc_length) %}{{ "N" }}{% endfor %}{{ r2_primer }}{% for X in range(r2_reads[0].maximum_read_length) %}{{ "X" }}{% endfor %}ATCTCGTATGCCGTCTTCTGCTTG
-    min_len: {{ 29 + 10 + r1_primer|length + r2_primer|length + bc_length + r2_reads[0].minimum_read_length + 24}}
-    max_len: {{ 29 + 10 + r1_primer|length + r2_primer|length + bc_length + r2_reads[0].maximum_read_length + 24}}
+    sequence: AATGATACGGCGACCACCGAGATCTACACXXXXXXXXXXCAGCCTGCATTTCTGCCAG{{ r1_primer }}{% for N in range(oligo_length) %}{{ "N" }}{% endfor %}{{ r2_primer }}GAAGCTCGACTTCCAGCTTGGCAATCCGGTACTGT{{ r3_primer }}{% for X in range(bc_length) %}{{ "X" }}{% endfor %}ACCGGTCGCCACCATGGTGAGCAAGGGCGAGGAGCATCTCGTATGCCGTCTTCTGCTTG
+    min_len: {{ 29 + 10 + 19 + r1_primer|length + oligo_length + r2_primer|length + 35 + r3_primer|length + bc_length + 35 + 24 }}
+    max_len: {{ 29 + 10 + 19 + r1_primer|length + oligo_length + r2_primer|length + 35 + r3_primer|length + bc_length + 35 + 24 }}
     onlist: null
     regions:
       - !Region
-        parent_id: {{ modality }}
+        parent_id: dna
         region_id: P5
         region_type: illumina_p5
         name: P5
@@ -89,7 +89,7 @@ library_spec:
         onlist: null
         regions: null
       - !Region
-        parent_id: {{ modality }}
+        parent_id: dna
         region_id: i5_index
         region_type: index5
         name: i5_index
@@ -100,7 +100,18 @@ library_spec:
         onlist: null
         regions: null
       - !Region
-        parent_id: {{ modality }}
+        parent_id: dna
+        region_id: linker_1
+        region_type: linker
+        name: linker_1
+        sequence_type: fixed
+        sequence: CAGCCTGCATTTCTGCCAG
+        min_len: 19
+        max_len: 19
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
         region_id: R1_custom_primer
         region_type: custom_primer
         name: R1_custom_primer
@@ -111,14 +122,14 @@ library_spec:
         onlist: null
         regions: null
       - !Region
-        parent_id: {{ modality }}
-        region_id: {{ modality }}-barcode
-        region_type: barcode
-        name: {{ modality|upper }} barcode
+        parent_id: dna
+        region_id: oligo
+        region_type: dna
+        name: oligo
         sequence_type: onlist
-        sequence: {% for N in range(bc_length) %}{{ "N" }}{% endfor %}
-        min_len: {{ bc_length }}
-        max_len: {{ bc_length }}
+        sequence: {% for N in range(oligo_length) %}{{ "N" }}{% endfor %}
+        min_len: {{ oligo_length }}
+        max_len: {{ oligo_length }}
         onlist: {% if onlist is defined %}!Onlist
           file_id: {{ onlist.accession }}
           filename: {{ onlist.accession }}.tsv.gz
@@ -129,7 +140,29 @@ library_spec:
           urltype: https{% else %}null{% endif %}
         regions: null
       - !Region
-        parent_id: {{ modality }}
+        parent_id: dna
+        region_id: R3_custom_primer
+        region_type: custom_primer
+        name: R3_custom_primer
+        sequence_type: fixed
+        sequence: {{ r3_primer }}
+        min_len: {{ r3_primer|length }}
+        max_len: {{ r3_primer|length }}
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
+        region_id: linker_2
+        region_type: linker
+        name: linker_2
+        sequence_type: fixed
+        sequence: GAAGCTCGACTTCCAGCTTGGCAATCCGGTACTGT
+        min_len: 35
+        max_len: 35
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
         region_id: R2_custom_primer
         region_type: custom_primer
         name: R2_custom_primer
@@ -140,18 +173,29 @@ library_spec:
         onlist: null
         regions: null
       - !Region
-        parent_id: {{ modality }}
-        region_id: umi
-        region_type: umi
-        name: UMI
+        parent_id: dna
+        region_id: barcode
+        region_type: barcode
+        name: barcode
         sequence_type: random
-        sequence: {% for X in range(r2_reads[0].minimum_read_length) %}{{ "X" }}{% endfor %}
-        min_len: {{ r2_reads[0].minimum_read_length }}
-        max_len: {{ r2_reads[0].maximum_read_length }}
+        sequence: {% for X in range(bc_length) %}{{ "X" }}{% endfor %}
+        min_len: {{ bc_length }}
+        max_len: {{ bc_length }}
         onlist: null
         regions: null
       - !Region
-        parent_id: {{ modality }}
+        parent_id: dna
+        region_id: linker_3
+        region_type: linker
+        name: linker_3
+        sequence_type: fixed
+        sequence: ACCGGTCGCCACCATGGTGAGCAAGGGCGAGGAGC
+        min_len: 35
+        max_len: 35
+        onlist: null
+        regions: null
+      - !Region
+        parent_id: dna
         region_id: P7
         region_type: illumina_p7
         name: P7
